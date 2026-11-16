@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed
+Accepted
 
 ## Context
 
@@ -15,7 +15,7 @@ Alternatives considered:
 
 ## Decision
 
-Use a Dev Container (`.devcontainer/`) with a pinned Ubuntu 24.04 image. The container fixes GCC 13.3, CMake 3.28, and Ninja. VS Code opens the project inside the container automatically.
+Use a Dev Container (`.devcontainer/`) with a pinned Ubuntu 24.04 image. The container fixes GCC 13.3, CMake 3.28, and Ninja. In VS Code, run **Dev Containers: Reopen in Container** to work inside it.
 
 ## Consequences
 

@@ -4,7 +4,7 @@ A ray tracer written in C++, built to be readable, tested, documented and open t
 
 ## Status
 
-Discovery phase done. Project bootstrap: Hello World and a test setup. No ray tracing code yet.
+Discovery phase done. Project bootstrap: Hello World, a test setup, and the files for open source contributions (licence, contributing guide, CI). No ray tracing code yet.
 
 ## Documentation
 

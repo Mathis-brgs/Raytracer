@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed
+Accepted
 
 ## Context
 
@@ -17,6 +17,8 @@ Alternatives considered:
 ## Decision
 
 Use CMake 3.28 as the build system with CTest as the test runner. `FetchContent` pins third-party dependencies (Catch2) at exact versions without an external package manager.
+
+A small root `Makefile` gives short commands (`make`, `make run`, `make test`, `make clean`). It only calls CMake and CTest. CMake still defines and performs the build.
 
 ## Consequences
 
