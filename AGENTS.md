@@ -3,18 +3,17 @@
 ## Build, run and test
 
 ```sh
-# Configure (first time or after CMakeLists.txt changes)
-cmake -S . -B build -G Ninja
-
-# Build
-cmake --build build
-
-# Run
-./build/raytracer
-
-# Test
-ctest --test-dir build --output-on-failure
+make        # build
+make run    # build and run
+make test   # build and run all tests
+make clean  # delete the build directory
 ```
+
+These wrap CMake and CTest. See `Makefile` at the root for the full commands.
+
+## Contributing
+
+Contributor rules (dev container set-up, TDD, ADR process, pull requests) are in `CONTRIBUTING.md`. Pull requests and issues use the templates in `.github/`. The CI (`.github/workflows/ci.yml`) runs `make test` in the dev container image on every pull request; keep it working when you change the build.
 
 ## Architecture decisions
 

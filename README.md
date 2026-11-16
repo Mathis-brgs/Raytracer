@@ -9,6 +9,9 @@ Discovery phase done. Project bootstrap: Hello World and a test setup. No ray tr
 ## Documentation
 
 - [Discovery report](docs/discovery/discovery-report.md): problem statement, client interview summary, state of the art, and first notes on ray tracing and C++.
+- [Architecture decisions](docs/adr/): one ADR per decision (dev container, CMake, Catch2, CI).
+- [Contributing](CONTRIBUTING.md): set-up, commands, TDD, ADRs and how to submit a change.
+- [Code of conduct](CODE_OF_CONDUCT.md).
 
 ## Build environment
 
@@ -23,9 +26,9 @@ Zed and the `devcontainer` CLI also read [.devcontainer/devcontainer.json](.devc
 ## Build and run
 
 ```
-cmake -S . -B build -G Ninja
-cmake --build build
-./build/raytracer
+make        # build
+make run    # build and run
+make clean  # delete the build directory
 ```
 
 Expected output: `Hello, ray tracer!`
@@ -35,8 +38,7 @@ Expected output: `Hello, ray tracer!`
 Tests use [Catch2](https://github.com/catchorg/Catch2) and are run by CTest.
 
 ```
-cmake --build build
-ctest --test-dir build --output-on-failure
+make test
 ```
 
 TDD loop for each new feature:
@@ -51,7 +53,14 @@ Example: [tests/hello_test.cpp](tests/hello_test.cpp) tests `greet` from [src/he
 
 ```
 .devcontainer/   Docker environment
+.github/         CI workflow, pull request and issue templates
+docs/            Discovery report and ADRs
 src/             Library code and the main program
 tests/           Tests
 CMakeLists.txt   Build definition
+Makefile         Shortcuts: build, run, test, clean
 ```
+
+## Licence
+
+[MIT](LICENSE).

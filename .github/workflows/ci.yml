@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      # Same image as the dev container (see docs/adr/0001-dev-container.md).
+      - name: Build the dev container image
+        run: docker build -t raytracer-dev -f .devcontainer/Dockerfile .devcontainer
+
+      - name: Build and test
+        run: docker run --rm -v "$PWD":/workspace -w /workspace raytracer-dev make test
