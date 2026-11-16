@@ -1,4 +1,4 @@
-# Raycaster
+# Raytracer
 
 A ray tracer written in C++, built to be readable, tested, documented and open to contributions.
 
