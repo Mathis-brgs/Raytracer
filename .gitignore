@@ -6,6 +6,9 @@ CLAUDE.md
 CLAUDE.local.md
 .claude/
 
+# Build output
+build/
+
 # OS / editor
 .DS_Store
 .vscode/

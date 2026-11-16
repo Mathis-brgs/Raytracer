@@ -1,0 +1,17 @@
+{
+  "name": "Raytracer (C++)",
+  "build": { "dockerfile": "Dockerfile" },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cmake-tools",
+        "ms-vscode.cpptools"
+      ],
+      "settings": {
+        "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+        "cmake.generator": "Ninja",
+        "cmake.configureOnOpen": true
+      }
+    }
+  }
+}
