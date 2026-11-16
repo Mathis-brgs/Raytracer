@@ -58,7 +58,7 @@ I asked one question, marked "me". The others came from classmates. I noted the 
 
 > **Q (a classmate):** "What is the most important thing for you?"
 >
-> **A:** "Main thing is to be able to add our own feature."
+> **A:** "Main thing is to be able to add their own feature."
 
 > **Q (a classmate):** "Who will maintain the software?"
 >
@@ -113,21 +113,21 @@ I asked one question, marked "me". The others came from classmates. I noted the 
 
 ## State of the art
 
-Prices checked on 16 November 2026. Capabilities use the same three criteria: CPU or GPU, rendering on many machines, and whether the studio can change the code.
+Prices checked on 16 November 2026. Capabilities use the same two criteria: rendering on many machines, and whether the studio can change the code. "Not checked" means I did not find it on the cited page.
 
 | Solution  | Maker                                            | Licence                                                | Pricing (date checked)                                                                        | Capabilities                                                           | Sources                                                                                          |
 | --------- | ------------------------------------------------ | ------------------------------------------------------ | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| RenderMan | Pixar                                            | Commercial, closed source. Free for non-commercial use | $595 per licence, plus $250 per year for maintenance (16 Nov 2026)                            | CPU and GPU. Many machines: yes, with Tractor (included). Code: closed | [renderman.pixar.com/store](https://renderman.pixar.com/store)                                   |
-| V-Ray     | Chaos                                            | Commercial, closed source, subscription                | Solo: €39.50 per month, billed yearly. Premium: €58.90 per month, billed yearly (16 Nov 2026) | CPU and GPU. Many machines: yes. Code: closed                          | [chaos.com/vray/buy-online](https://www.chaos.com/vray/buy-online)                               |
-| Cycles    | Blender project                                  | Open source, Apache 2.0                                | Free (16 Nov 2026)                                                                            | CPU and GPU. Many machines: not included. Code: open                   | [cycles-renderer.org](https://www.cycles-renderer.org/)                                          |
-| MoonRay   | DreamWorks Animation                             | Open source, Apache 2.0                                | Free (16 Nov 2026)                                                                            | CPU and GPU. Many machines: yes, with Arras (included). Code: open     | [github.com/dreamworksanimation/openmoonray](https://github.com/dreamworksanimation/openmoonray) |
-| pbrt-v4   | Authors of the book _Physically Based Rendering_ | Open source, Apache 2.0                                | Free (16 Nov 2026)                                                                            | CPU and GPU. Many machines: no. Code: open, explained in the book      | [github.com/mmp/pbrt-v4](https://github.com/mmp/pbrt-v4)                                         |
+| RenderMan | Pixar                                            | Commercial, closed source. | $595 per licence, plus $250 per year for maintenance (16 Nov 2026)                            | Many machines: yes, with Tractor (included). Code: closed | [renderman.pixar.com/store](https://renderman.pixar.com/store)                                   |
+| V-Ray     | Chaos                                            | Commercial, closed source, subscription                | Solo: €39.50 per month, billed yearly. Premium: €58.90 per month, billed yearly (16 Nov 2026) | Many machines: not checked. Code: closed                          | [chaos.com/vray/buy-online](https://www.chaos.com/vray/buy-online)                               |
+| Cycles    | Blender project                                  | Open source, Apache 2.0                                | Free (16 Nov 2026)                                                                            | Many machines: not checked. Code: open                   | [cycles-renderer.org](https://www.cycles-renderer.org/)                                          |
+| MoonRay   | DreamWorks Animation                             | Open source, Apache 2.0                                | Free (16 Nov 2026)                                                                            | Many machines: yes, with Arras (included). Code: open     | [github.com/dreamworksanimation/openmoonray](https://github.com/dreamworksanimation/openmoonray) |
+| pbrt-v4   | Authors of the book _Physically Based Rendering_ | Open source, Apache 2.0                                | Free (16 Nov 2026)                                                                            | Many machines: not checked. Code: open, explained in the book      | [github.com/mmp/pbrt-v4](https://github.com/mmp/pbrt-v4)                                         |
 
-All of these render film-quality images, and three are free. The client pays 2 million in licences while free renderers exist, so price alone does not explain the project. The commercial ones are closed: the studio cannot add its own features. The open ones are large projects written for someone else, hard to maintain for a team that did not write them. What is missing for this client is a ray tracer its own developers understand, extend and keep alive when people leave.
+All of these rendering engines produce cinematic-quality images, and three of them are free. The client spends 2 million on licences even though free engines exist. The commercial engines are closed, so the studio cannot add its own features. The free engines were developed for a third party, so they are difficult to maintain for a team that did not develop them. What the client lacks is a ray tracing engine that its own developers can understand, extend and keep running even when employees leave the company.
 
 ## What is ray tracing?
 
-A ray tracer takes a scene as input: objects, their materials, lights and a camera. It gives back an image, which is a grid of pixels with one colour each. For each pixel, it casts a ray from the camera into the scene and finds the closest object the ray hits. It calculates the colour at that point from the material and the lights. To test for shadow, it sends a ray toward each light: if something blocks it, the point is in shadow. If the surface is shiny, the ray bounces off it like a ball, and the process repeats along the new ray, up to a maximum number of bounces.
+A ray tracer takes a scene as input: objects, their materials, lights and a camera. It then outputs an image, which is a grid of pixels of different colours. For each pixel, it projects a ray toward the scene and identifies the nearest object hit by that ray. It calculates the colour at that location based on the material and the lights. To detect shadows, it sends a ray toward each light source: if something blocks it, the point is in shadow. If the surface is shiny, the ray bounces off it like a ball, and the process repeats along the new ray, up to a maximum number of bounces.
 
 **Sources:** I started from [Ray Tracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html) (Shirley, Black, Hollasch). The reference I would come back to is [Physically Based Rendering](https://pbr-book.org/4ed/Introduction), free online.
 
@@ -135,13 +135,13 @@ A ray tracer takes a scene as input: objects, their materials, lights and a came
 
 ### Programming paradigms
 
-C++ supports procedural programming (functions), object-oriented programming (classes), generic programming (templates) and a bit of functional programming. The languages I know, JavaScript, TypeScript and Python, also mix paradigms. JavaScript and Python are dynamically typed. TypeScript checks types like C++, but its types disappear when the code runs.
+C++ supports functions, object-oriented programming (classes), generic programming (templates) and a bit of functional programming. I know JavaScript, TypeScript and Python. They also mix several styles, for example functions and classes. JavaScript and Python are dynamically typed languages. TypeScript performs type checks, just like C++.
 
-C++ is compiled into machine code. This gives two separate benefits: many errors are found before the program runs, and the program runs fast.
+C++ is compiled into machine code. This has two advantages: many errors are detected before the program runs, and execution is fast.
 
 ### What to watch out for
 
-- **Memory:** there is no garbage collector. Pitfalls: using an object that has already been destroyed, or never freeing it.
+- **Memory:** there is no garbage collector. Traps: using an object that has already been destroyed, or never freeing it.
 - **Copies:** by default, an object is copied when passed to a function. In JavaScript and Python it is shared. I must choose between a copy and a reference.
 - **Undefined behaviour:** reading outside an array or using a variable with no value does not cause an error. The program just gives a wrong result.
 - **Compilation:** header files, source files and a build step.
