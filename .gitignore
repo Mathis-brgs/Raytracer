@@ -1,0 +1,13 @@
+# Private working notes 
+notes/
+
+# AI assistant files
+CLAUDE.md
+CLAUDE.local.md
+.claude/
+
+# OS / editor
+.DS_Store
+.vscode/
+
+.docs/
