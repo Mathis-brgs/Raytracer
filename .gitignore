@@ -6,6 +6,9 @@ CLAUDE.md
 CLAUDE.local.md
 .claude/
 
+# Editor cache (clangd)
+.cache/
+
 # Build output
 build/
 

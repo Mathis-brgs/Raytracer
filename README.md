@@ -47,7 +47,21 @@ TDD loop for each new feature:
 2. **Green:** write the simplest code in `src/` that makes it pass.
 3. **Refactor:** clean up the code. The tests must stay green.
 
-Example: [tests/hello_test.cpp](tests/hello_test.cpp) tests `greet` from [src/hello.cpp](src/hello.cpp). To add a test file, list it in `add_executable(raytracer_tests ...)` in [CMakeLists.txt](CMakeLists.txt).
+Example: [tests/hello_test.cpp](tests/hello_test.cpp) tests `greet` from [src/hello.cpp](src/hello.cpp).
+
+Useful Catch2 macros:
+
+| Macro | Purpose |
+|---|---|
+| `REQUIRE(expr)` | Check; stop the test on failure |
+| `CHECK(expr)` | Check; continue the test on failure |
+| `REQUIRE_THROWS(expr)` | Expect an exception |
+| `Catch::Approx(x).epsilon(e)` | Compare floating-point numbers with a margin ([example](tests/float_test.cpp)) |
+
+## Adding files
+
+1. Create `src/yourfile.cpp` and `src/yourfile.hpp`, and add the `.cpp` to `add_library(raytracer_core ...)` in [CMakeLists.txt](CMakeLists.txt).
+2. Create `tests/yourfile_test.cpp`, and add it to `add_executable(raytracer_tests ...)` in the same file.
 
 ## Project layout
 

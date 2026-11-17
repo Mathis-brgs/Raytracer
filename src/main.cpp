@@ -1,8 +1,13 @@
-#include <iostream>
-
-#include "hello.hpp"
+#include<iostream>
+#include "vector.hpp"
 
 int main() {
-    std::cout << greet("ray tracer") << '\n';
-    return 0;
+    std:: cout <<"Hello, Raytracer! \n";
+
+    Vector v1(1.0, 2.0,3.0);
+    Vector v2(4.0, 5.0, 6.0);
+    Vector v3 = v1.add(v2);
+    Vector v4 = v1.subtract(v2);
+
+return 0;
 }

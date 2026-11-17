@@ -1,6 +1,7 @@
 {
   "name": "Raytracer (C++)",
   "build": { "dockerfile": "Dockerfile" },
+  "postCreateCommand": "cmake -S . -B build -G Ninja",
   "customizations": {
     "vscode": {
       "extensions": [
