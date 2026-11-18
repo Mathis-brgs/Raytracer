@@ -1,4 +1,4 @@
-#include "camera/camera.hpp"
+#include "render/camera.hpp"
 
 Camera::Camera(const Vector& eye, int width, int height, double distance)
     : _eye(eye), _width(width), _height(height), _distance(distance) {}

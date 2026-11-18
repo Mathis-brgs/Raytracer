@@ -1,7 +1,7 @@
 #pragma once
 
 #include "math/vector.hpp"
-#include "ray/ray.hpp"
+#include "geometry/ray.hpp"
 
 class Sphere {
 private:

@@ -1,7 +1,7 @@
 #include<iostream>
 #include "math/vector.hpp"
-#include "ray/ray.hpp"
-#include "camera/camera.hpp"
+#include "geometry/ray.hpp"
+#include "render/camera.hpp"
 #include "geometry/sphere.hpp"
 #include "colour/colour.hpp"
 
