@@ -4,6 +4,7 @@
 #include "geometry/sphere.hpp"
 #include "render/camera.hpp"
 #include "render/trace.hpp"
+#include "image/image.hpp"
 
 // The colour of one pixel: the ray from the eye through the centre of the screen.
 int main() {
@@ -21,5 +22,9 @@ int main() {
     }
 
     std::cout << "Colour: (" << pixel.r() << ", " << pixel.g() << ", " << pixel.b() << ")\n";
+
+    Colour colour(0.5, 0.2, 0.8);
+    Image image(800, 600);
+    image.setPixel(400, 300, colour);
     return 0;
 }
