@@ -1,7 +1,9 @@
 #pragma once
 
+#include "geometry/ray.hpp"
 #include "math/vector.hpp"
 
+// For now, the camera always looks along +z.
 class Camera {
 private:
     Vector _eye;
@@ -16,4 +18,6 @@ public:
     int width() const;
     int height() const;
     double distance() const;
+
+    Ray rayThroughCentre() const;
 };

@@ -2,11 +2,12 @@
 
 #include <cmath>
 
-Sphere::Sphere(const Vector& centre, double radius)
-    : _centre(centre), _radius(radius) {}
+Sphere::Sphere(const Vector& centre, double radius, const Colour& colour)
+    : _centre(centre), _radius(radius), _colour(colour) {}
 
 Vector Sphere::centre() const { return _centre; }
 double Sphere::radius() const { return _radius; }
+Colour Sphere::colour() const { return _colour; }
 
 bool Sphere::hits(const Ray& ray) const {
     Vector O = ray.origin();

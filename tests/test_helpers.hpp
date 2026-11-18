@@ -21,3 +21,9 @@ static void requireColourEqual(const Colour& actual, double r, double g, double 
     REQUIRE_THAT(actual.g(), WithinAbs(g, tolerance));
     REQUIRE_THAT(actual.b(), WithinAbs(b, tolerance));
 }
+
+// Compares two colours. Do not use it in the Colour test itself:
+// there, the expected value would go through the same getters as the actual one.
+static void requireColoursEqual(const Colour& actual, const Colour& expected) {
+    requireColourEqual(actual, expected.r(), expected.g(), expected.b());
+}

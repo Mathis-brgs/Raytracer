@@ -47,7 +47,7 @@ TDD loop for each new feature:
 2. **Green:** write the simplest code in `src/` that makes it pass.
 3. **Refactor:** clean up the code. The tests must stay green.
 
-Example: [tests/hello_test.cpp](tests/hello_test.cpp) tests `greet` from [src/hello.cpp](src/hello.cpp).
+Example: [tests/geometry/sphere_test.cpp](tests/geometry/sphere_test.cpp) tests `Sphere` from [src/geometry/sphere.cpp](src/geometry/sphere.cpp).
 
 Useful Catch2 macros:
 

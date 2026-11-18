@@ -7,3 +7,8 @@ Vector Camera::eye() const { return _eye; }
 int Camera::width() const { return _width; }
 int Camera::height() const { return _height; }
 double Camera::distance() const { return _distance; }
+
+Ray Camera::rayThroughCentre() const {
+    Vector screenCentre = _eye + Vector(0, 0, _distance);
+    return Ray(_eye, screenCentre - _eye);
+}
