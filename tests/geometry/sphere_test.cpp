@@ -31,3 +31,19 @@ TEST_CASE("a ray going up the y axis hits the bottom of the sphere", "[sphere]")
 }
 
 
+TEST_CASE("a sphere behind the eye is not hit", "[sphere]") {
+    Sphere sphere(Vector(0, 0, -10), 1);
+    Ray ray(Vector(0, 0, 0), Vector(0, 0, 1));
+    REQUIRE_FALSE(sphere.hits(ray));
+}
+
+TEST_CASE("a ray starting inside the sphere hits it in front, not behind", "[sphere]") {
+    Sphere sphere(Vector(0, 0, 0), 2);
+    Ray ray(Vector(0, 0, 0), Vector(0, 0, 1));
+
+    Vector p = sphere.hitPoint(ray);
+
+    REQUIRE_THAT(p.x(), WithinAbs(0, tolerance));
+    REQUIRE_THAT(p.y(), WithinAbs(0, tolerance));
+    REQUIRE_THAT(p.z(), WithinAbs(2, tolerance));
+}
