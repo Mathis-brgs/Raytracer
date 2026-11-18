@@ -1,13 +1,17 @@
 #include<iostream>
 #include "math/vector.hpp"
+#include "ray/ray.hpp"
+#include "camera/camera.hpp"
+#include "geometry/sphere.hpp"
+
 
 int main() {
     std:: cout <<"Hello, Raytracer! \n";
-
-    Vector v1(1.0, 2.0,3.0);
-    Vector v2(4.0, 5.0, 6.0);
-    Vector v3 = v1 + v2;
-    Vector v4 = v1 - v2;
+    
+    Ray ray(Vector(0, -1.0, 0), Vector(0, 1.0, 0));
+    Sphere sphere(Vector(0, 9.0, 0), 5.0);
+    Vector hitPoint = sphere.hitPoint(ray);
+    std::cout << "Hit point: " << hitPoint.x() << ", " << hitPoint.y() << ", " << hitPoint.z() << "\n";
 
 return 0;
 }
