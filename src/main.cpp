@@ -13,6 +13,13 @@ int main() {
     Ray ray = camera.rayThroughCentre();
     Colour pixel = trace(ray, sphere);
 
-    std::cout << "(" << pixel.r() << ", " << pixel.g() << ", " << pixel.b() << ")\n";
+    if (sphere.hits(ray)) {
+        Vector P = sphere.hitPoint(ray);
+        std::cout << "Hit point: (" << P.x() << ", " << P.y() << ", " << P.z() << ")\n";
+    } else {
+        std::cout << "The ray misses the sphere.\n";
+    }
+
+    std::cout << "Colour: (" << pixel.r() << ", " << pixel.g() << ", " << pixel.b() << ")\n";
     return 0;
 }
