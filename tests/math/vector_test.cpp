@@ -2,16 +2,7 @@
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
 
 #include "math/vector.hpp"
-
-using Catch::Matchers::WithinAbs;
-
-const double tolerance = 1e-9;
-
-static void requireVectorsEqual(const Vector& actual, const Vector& expected) {
-    REQUIRE_THAT(actual.x(), WithinAbs(expected.x(), tolerance));
-    REQUIRE_THAT(actual.y(), WithinAbs(expected.y(), tolerance));
-    REQUIRE_THAT(actual.z(), WithinAbs(expected.z(), tolerance));
-}
+#include "test_helpers.hpp"
 
 TEST_CASE("a + b adds each component", "[vector]") {
     requireVectorsEqual(Vector(3, 4, 0) + Vector(4, -3, 0), Vector(7, 1, 0));

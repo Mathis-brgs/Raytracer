@@ -26,6 +26,7 @@ list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
 
 add_executable(raytracer_tests tests/hello_test.cpp tests/float_test.cpp tests/math/vector_test.cpp tests/geometry/ray_test.cpp tests/render/camera_test.cpp tests/colour/colour_test.cpp tests/geometry/sphere_test.cpp)
 target_link_libraries(raytracer_tests PRIVATE raytracer_core Catch2::Catch2WithMain)
+target_include_directories(raytracer_tests PRIVATE tests)
 
 include(Catch)
 catch_discover_tests(raytracer_tests)
