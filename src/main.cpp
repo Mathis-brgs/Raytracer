@@ -5,6 +5,7 @@
 #include "render/camera.hpp"
 #include "render/trace.hpp"
 #include "image/image.hpp"
+#include "io/png_saver.hpp"
 
 // The colour of one pixel: the ray from the eye through the centre of the screen.
 int main() {
@@ -23,8 +24,11 @@ int main() {
 
     std::cout << "Colour: (" << pixel.r() << ", " << pixel.g() << ", " << pixel.b() << ")\n";
 
-    Colour colour(0.5, 0.2, 0.8);
-    Image image(800, 600);
-    image.setPixel(400, 300, colour);
+    Colour colour(1, 0, 0);
+    Image image(256, 256);
+    image.setPixel(128, 128, colour);
+
+    PngSaver saver;
+    saver.save(image, "image.png");
     return 0;
 }
