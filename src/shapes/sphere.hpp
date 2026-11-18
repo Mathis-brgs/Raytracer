@@ -15,4 +15,5 @@ public:
     double radius() const;
 
     bool hits(const Ray& ray) const;
+    Vector hitPoint(const Ray& ray) const;
 };
