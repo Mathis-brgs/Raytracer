@@ -1,4 +1,4 @@
-#include "geometry/ray.hpp"
+#include "ray/ray.hpp"
 
 Ray::Ray(const Vector& origin, const Vector& direction)
     : _origin(origin), _direction(direction) {}
