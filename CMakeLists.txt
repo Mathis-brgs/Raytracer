@@ -36,7 +36,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(Catch2)
 list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
 
-add_executable(raytracer_tests tests/float_test.cpp tests/math/vector_test.cpp tests/geometry/ray_test.cpp tests/render/camera_test.cpp tests/render/trace_test.cpp tests/image/image_test.cpp tests/colour/colour_test.cpp tests/geometry/sphere_test.cpp tests/io/png_saver_test.cpp)
+add_executable(raytracer_tests tests/float_test.cpp tests/math/vector_test.cpp tests/geometry/ray_test.cpp tests/render/camera_test.cpp tests/render/trace_test.cpp tests/render/render_test.cpp tests/image/image_test.cpp tests/colour/colour_test.cpp tests/geometry/sphere_test.cpp tests/io/png_saver_test.cpp)
 target_link_libraries(raytracer_tests PRIVATE raytracer_core Catch2::Catch2WithMain)
 target_include_directories(raytracer_tests PRIVATE tests)
 
