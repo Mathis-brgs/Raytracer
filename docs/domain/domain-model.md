@@ -6,12 +6,13 @@
 ```mermaid
 classDiagram
     Camera "1" --> "*" Ray : sends, one per pixel
-    Ray "*" --> "*" Sphere : hits
+    Ray "*" --> "0..1" Sphere : hits
 
     class Camera {
         eye: Vector
         width: int
         height: int
+        distance: double
     }
     class Ray {
         origin: Vector
@@ -27,7 +28,7 @@ classDiagram
 
 | Word | Meaning |
 |---|---|
-| Camera | The eye, where rays start, and a screen of `width` × `height` pixels in front of it. |
+| Camera | The eye, where rays start, and a screen of `width` × `height` pixels, `distance` in front of the eye. |
 | Ray | A half-line: a starting point and a direction. The point at distance `t` is `origin + t × direction`. |
 | Sphere | A ball, given by its centre and its radius. |
 | Vector | Three numbers `x`, `y`, `z`. Used for points and for directions. |
