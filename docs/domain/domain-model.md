@@ -6,7 +6,7 @@
 ```mermaid
 classDiagram
     Camera "1" --> "*" Ray : sends, one per pixel
-    Camera ..> Image : renders into
+    Camera ..> Image : renders
     Ray "*" --> "0..1" Sphere : hits
     Sphere "1" *-- "1" Colour : has
     Image "1" *-- "*" Colour : one per pixel
@@ -15,11 +15,10 @@ classDiagram
 
     class Camera {
         eye: Vector
-        width: double
-        height: double
-        distance: double
-        rayThroughPixel(column, row, imageWidth, imageHeight) Ray
-        render(image, sphere)
+        screenCentre: Vector
+        screenWidth: double
+        rayThroughPixel(column, row, width, height) Ray
+        render(sphere, width, height) Image
     }
     class Ray {
         origin: Vector
@@ -54,14 +53,14 @@ classDiagram
 
 | Word | Meaning |
 |---|---|
-| Camera | The eye, where rays start, and a screen `width` × `height` in world units, `distance` in front of the eye. For now it always looks along +z. |
+| Camera | The eye, where rays start, and a screen in front of it, given by its centre and its width. For now the screen faces along +z. |
 | Pixel | One square of the image, counted by `column` (from the left) and `row` (from the top). Its ray goes from the eye through its centre. |
 | Ray | A half-line: a starting point and a direction. The point at distance `t` is `origin + t × direction`. |
 | Sphere | A ball, given by its centre, its radius and its colour. |
 | Colour | Red, green and blue, each from 0 to 1. |
 | Vector | Three numbers `x`, `y`, `z`. Used for points and for directions. |
 | Trace | Gives the colour a ray sees: the sphere's colour if it hits it, black if not. |
-| Render | Send one ray per pixel, trace it, and fill the image. |
+| Render | Make an image of the size asked for: one ray per pixel, traced, and its colour stored. |
 | Image | A grid of pixels, each with a colour. Every pixel starts black. |
 | Save | Write an image to a file. An `ImageSaver` does it, one class per file format. Today: PNG. |
 

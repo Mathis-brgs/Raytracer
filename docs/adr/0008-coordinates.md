@@ -17,7 +17,7 @@ Ray Tracing in One Weekend uses another choice for the world: the camera looks a
 
 - **World:** x goes right, y goes up, z goes forward. The camera looks along +z.
 - **Image:** column 0 is on the left, row 0 is at the top. Columns go right, rows go down.
-- `rayThroughPixel` turns the row round, so that row 0 is the top of the screen: `y = -(row + 0.5 - height / 2) × pixel size`.
+- `rayThroughPixel` turns the row round, so that row 0 is the top of the screen: `y = (height / 2 - row - 0.5) × pixel size`.
 
 We keep the names apart: `column` and `row` for the image, `x`, `y` and `z` for the world. `Camera` already does. `Image` still calls its parameters `x` and `y`, and should be renamed.
 
