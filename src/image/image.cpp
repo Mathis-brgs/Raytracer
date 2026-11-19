@@ -6,11 +6,15 @@ Image::Image(unsigned int width, unsigned int height)
 unsigned int Image::width() const { return _width; }
 unsigned int Image::height() const { return _height; }
 
-// Pixels are stored row after row: skip y full rows, then move x along the row.
 void Image::setPixel(unsigned int x, unsigned int y, const Colour& colour) {
-    _pixels[y * _width + x] = colour;
+    _pixels[index(x, y)] = colour;
 }
 
 Colour Image::pixel(unsigned int x, unsigned int y) const {
-    return _pixels[y * _width + x];
+    return _pixels[index(x, y)];
+}
+
+// Pixels are stored row after row: skip y full rows, then move x along the row.
+unsigned int Image::index(unsigned int x, unsigned int y) const {
+    return y * _width + x;
 }

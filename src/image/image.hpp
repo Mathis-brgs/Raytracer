@@ -12,6 +12,8 @@ private:
     unsigned int _height;
     std::vector<Colour> _pixels;
 
+    unsigned int index(unsigned int x, unsigned int y) const;
+
 public:
     Image(unsigned int width, unsigned int height);
 
