@@ -6,9 +6,23 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # lets the editor find include paths
 
+include(FetchContent)
+
+# LodePNG, to write PNG files. It has no release tags, so it is pinned to one exact commit.
+# It has no CMake file either: we build its single source file ourselves.
+FetchContent_Declare(
+  lodepng
+  URL https://github.com/lvandeve/lodepng/archive/7b2893e35891c0c85bee5595caafaf3c2044b409.tar.gz
+)
+FetchContent_MakeAvailable(lodepng)
+add_library(lodepng ${lodepng_SOURCE_DIR}/lodepng.cpp)
+target_include_directories(lodepng PUBLIC ${lodepng_SOURCE_DIR})
+
 # Library: the code we test.
-add_library(raytracer_core src/hello.cpp src/math/vector.cpp src/geometry/ray.cpp src/shapes/sphere.cpp)
+add_library(raytracer_core src/math/vector.cpp src/geometry/ray.cpp src/render/camera.cpp src/render/trace.cpp src/image/image.cpp src/io/png_saver.cpp src/colour/colour.cpp src/geometry/sphere.cpp src/geometry/plane.cpp src/scene/scene.cpp src/material/flat_material.cpp src/material/lambert_material.cpp src/light/light.cpp)
 target_include_directories(raytracer_core PUBLIC src)
+# PRIVATE: our code uses LodePNG but does not pass it on, so main.cpp cannot include lodepng.h.
+target_link_libraries(raytracer_core PRIVATE lodepng)
 
 # Program: the Hello World demo.
 add_executable(raytracer src/main.cpp)
@@ -16,7 +30,6 @@ target_link_libraries(raytracer PRIVATE raytracer_core)
 
 # Tests (Catch2, version fixed).
 include(CTest)
-include(FetchContent)
 FetchContent_Declare(
   Catch2
   URL https://github.com/catchorg/Catch2/archive/refs/tags/v3.7.1.tar.gz
@@ -24,8 +37,10 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(Catch2)
 list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
 
-add_executable(raytracer_tests tests/hello_test.cpp tests/float_test.cpp tests/math/vector_test.cpp tests/geometry/ray_test.cpp tests/shapes/sphere_test.cpp)
-target_link_libraries(raytracer_tests PRIVATE raytracer_core Catch2::Catch2WithMain)
+add_executable(raytracer_tests tests/float_test.cpp tests/math/vector_test.cpp tests/geometry/ray_test.cpp tests/render/camera_test.cpp tests/render/trace_test.cpp tests/render/render_test.cpp tests/image/image_test.cpp tests/colour/colour_test.cpp tests/geometry/sphere_test.cpp tests/io/png_saver_test.cpp tests/material/flat_material_test.cpp tests/light/light_test.cpp tests/material/lambert_material_test.cpp tests/geometry/plane_test.cpp tests/scene/scene_test.cpp)
+# The PNG test reads the file back with LodePNG, so it links it too.
+target_link_libraries(raytracer_tests PRIVATE raytracer_core lodepng Catch2::Catch2WithMain)
+target_include_directories(raytracer_tests PRIVATE tests)
 
 include(Catch)
 catch_discover_tests(raytracer_tests)
