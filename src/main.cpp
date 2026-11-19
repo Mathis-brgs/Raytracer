@@ -1,17 +1,20 @@
 #include <iostream>
+#include <memory>
 #include <string>
 
 #include "colour/colour.hpp"
 #include "geometry/sphere.hpp"
 #include "image/image.hpp"
 #include "io/png_saver.hpp"
+#include "material/flat_material.hpp"
 #include "math/vector.hpp"
 #include "render/camera.hpp"
 
 // Renders one red sphere and saves it as a PNG file.
 int main() {
     Camera camera(Vector(0, 0, -1), Vector(0, 0, 0), 2);
-    Sphere sphere(Vector(0, 0, 9), 5, Colour(1, 0, 0));
+    auto red = std::make_shared<FlatMaterial>(Colour(1, 0, 0));
+    Sphere sphere(Vector(0, 0, 9), 5, red);
 
     Image image = camera.render(sphere, 400, 300);
 

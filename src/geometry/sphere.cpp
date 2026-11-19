@@ -2,12 +2,12 @@
 
 #include <cmath>
 
-Sphere::Sphere(const Vector& centre, double radius, const Colour& colour)
-    : _centre(centre), _radius(radius), _colour(colour) {}
+Sphere::Sphere(const Vector& centre, double radius, std::shared_ptr<const Material> material)
+    : _centre(centre), _radius(radius), _material(material) {}
 
 Vector Sphere::centre() const { return _centre; }
 double Sphere::radius() const { return _radius; }
-Colour Sphere::colour() const { return _colour; }
+const Material& Sphere::material() const { return *_material; }
 
 bool Sphere::hits(const Ray& ray) const {
     Vector O = ray.origin();
