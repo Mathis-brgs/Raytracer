@@ -5,24 +5,20 @@
 #include "image/image.hpp"
 #include "math/vector.hpp"
 
-// For now, the camera always looks along +z.
+// An eye and a screen in front of it. For now, the screen faces along +z.
 class Camera {
 private:
     Vector _eye;
-    double _width;
-    double _height;
-    double _distance;
+    Vector _screenCentre;
+    double _screenWidth;
 
 public:
-    Camera(const Vector& eye, double width, double height, double distance);
+    Camera(const Vector& eye, const Vector& screenCentre, double screenWidth);
 
-    Vector eye() const;
-    double width() const;
-    double height() const;
-    double distance() const;
+    // The ray from the eye through the centre of pixel (column, row),
+    // in an image width x height pixels that covers the whole screen.
+    Ray rayThroughPixel(int column, int row, int width, int height) const;
 
-    Ray rayThroughPixel(int column, int row, int imageWidth, int imageHeight) const;
-
-    // Fills every pixel of the image with what its ray sees.
-    void render(Image& image, const Sphere& sphere) const;
+    // An image of width x height pixels, each with the colour its ray sees.
+    Image render(const Sphere& sphere, int width, int height) const;
 };

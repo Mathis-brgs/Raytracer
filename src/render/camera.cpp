@@ -2,34 +2,28 @@
 
 #include "render/trace.hpp"
 
-Camera::Camera(const Vector& eye, double width, double height, double distance)
-    : _eye(eye), _width(width), _height(height), _distance(distance) {}
+Camera::Camera(const Vector& eye, const Vector& screenCentre, double screenWidth)
+    : _eye(eye), _screenCentre(screenCentre), _screenWidth(screenWidth) {}
 
-Vector Camera::eye() const { return _eye; }
-double Camera::width() const { return _width; }
-double Camera::height() const { return _height; }
-double Camera::distance() const { return _distance; }
+Ray Camera::rayThroughPixel(int column, int row, int width, int height) const {
+    double pixelSize = _screenWidth / width;
+    // 2.0, not 2: an int divided by an int drops the decimals (5 / 2 is 2).
+    // Image rows go down and world y goes up, so y is turned round.
+    double x = (column + 0.5 - width / 2.0) * pixelSize;
+    double y = (height / 2.0 - row - 0.5) * pixelSize;
 
-Ray Camera::rayThroughPixel(int column, int row, int imageWidth, int imageHeight) const {
-    // _width is a double, so this divides as doubles (an int / int would drop the decimals).
-    double pixelSize = _width / imageWidth;
-
-    // Centre of the pixel, measured from the screen centre, in world units.
-    // Image rows go down, world y goes up: hence the minus sign on y.
-    double x = ((column + 0.5) - imageWidth / 2.) * pixelSize;
-    double y = -((row + 0.5) - imageHeight / 2.) * pixelSize;
-
-    // The screen is _distance in front of the eye, along +z.
-    Vector pixel = _eye + Vector(x, y, _distance);
+    Vector pixel = _screenCentre + Vector(x, y, 0);
     return Ray(_eye, pixel - _eye);
 }
 
-// Row by row, top to bottom, left to right: the order the image stores its pixels.
-void Camera::render(Image& image, const Sphere& sphere) const {
-    for (unsigned int row = 0; row < image.height(); row++) {
-        for (unsigned int column = 0; column < image.width(); column++) {
-            Ray ray = rayThroughPixel(column, row, image.width(), image.height());
+// Row by row from the top, left to right: the order the image stores its pixels.
+Image Camera::render(const Sphere& sphere, int width, int height) const {
+    Image image(width, height);
+    for (int row = 0; row < height; row++) {
+        for (int column = 0; column < width; column++) {
+            Ray ray = rayThroughPixel(column, row, width, height);
             image.setPixel(column, row, trace(ray, sphere));
         }
     }
+    return image;
 }
