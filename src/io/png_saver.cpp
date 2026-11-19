@@ -14,7 +14,7 @@ static unsigned char toByte(double channel) {
     return static_cast<unsigned char>(std::round(clamped * 255));
 }
 
-void PngSaver::save(Image& image, const std::string& path) {
+void PngSaver::save(const Image& image, const std::string& path) const {
     // 3 bytes per pixel (red, green, blue), row after row, from the top left.
     std::vector<unsigned char> bytes;
     bytes.reserve(image.width() * image.height() * 3);
