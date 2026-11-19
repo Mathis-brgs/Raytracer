@@ -9,20 +9,18 @@
 class Camera {
 private:
     Vector _eye;
-    int _width;
-    int _height;
+    double _width;
+    double _height;
     double _distance;
 
 public:
-    Camera(const Vector& eye, int width, int height, double distance);
+    Camera(const Vector& eye, double width, double height, double distance);
 
     Vector eye() const;
-    int width() const;
-    int height() const;
+    double width() const;
+    double height() const;
     double distance() const;
 
-    Ray rayThroughCentre() const;
-    
     Ray rayThroughPixel(int column, int row, int imageWidth, int imageHeight) const;
 
     // Fills every pixel of the image with what its ray sees.

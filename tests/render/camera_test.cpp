@@ -7,27 +7,28 @@ TEST_CASE("a camera keeps its eye, its screen size and its screen distance", "[c
     Camera camera(Vector(1, 2, 3), 640, 480, 1.5);
 
     requireVectorsEqual(camera.eye(), Vector(1, 2, 3));
-    REQUIRE(camera.width() == 640);
-    REQUIRE(camera.height() == 480);
+    REQUIRE_THAT(camera.width(), WithinAbs(640, tolerance));
+    REQUIRE_THAT(camera.height(), WithinAbs(480, tolerance));
     REQUIRE_THAT(camera.distance(), WithinAbs(1.5, tolerance));
 }
 
+// The spike's single pixel is the one pixel of a 1 x 1 image: its centre is the screen centre.
 // The camera looks along +z, so the screen centre is the eye plus (0, 0, distance).
 // Eye (0, 0, -1), distance 1: screen centre (0, 0, 0), direction (0, 0, 0) - (0, 0, -1) = (0, 0, 1).
-TEST_CASE("the ray through the screen centre starts at the eye and goes along +z", "[camera]") {
+TEST_CASE("in a 1 x 1 image, the ray goes from the eye along +z", "[camera]") {
     Camera camera(Vector(0, 0, -1), 1, 1, 1);
 
-    Ray ray = camera.rayThroughCentre();
+    Ray ray = camera.rayThroughPixel(0, 0, 1, 1);
 
     requireVectorsEqual(ray.origin(), Vector(0, 0, -1));
     requireVectorsEqual(ray.direction(), Vector(0, 0, 1));
 }
 
 // Eye (1, 2, -1), distance 3: screen centre (1, 2, 2), direction (1, 2, 2) - (1, 2, -1) = (0, 0, 3).
-TEST_CASE("the ray through the screen centre follows the eye when it moves", "[camera]") {
+TEST_CASE("in a 1 x 1 image, the ray follows the eye when it moves", "[camera]") {
     Camera camera(Vector(1, 2, -1), 1, 1, 3);
 
-    Ray ray = camera.rayThroughCentre();
+    Ray ray = camera.rayThroughPixel(0, 0, 1, 1);
 
     requireVectorsEqual(ray.origin(), Vector(1, 2, -1));
     requireVectorsEqual(ray.direction(), Vector(0, 0, 3));
