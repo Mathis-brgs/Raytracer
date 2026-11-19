@@ -43,5 +43,5 @@ std::optional<HitInfo> Sphere::intersect(const Ray& ray) const {
 
     Vector point = ray.at(t);
     Vector normal = (point - _centre).normalised();
-    return HitInfo{point, normal, *_material};
+    return HitInfo{t, point, normal, *_material};
 }

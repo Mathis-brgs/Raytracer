@@ -32,6 +32,7 @@ TEST_CASE("a ray going up the y axis hits the bottom of the sphere", "[sphere]")
     std::optional<HitInfo> hit = sphere.intersect(ray);
 
     REQUIRE(hit.has_value());
+    REQUIRE_THAT(hit->t, WithinAbs(5, tolerance));
     requireVectorsEqual(hit->point, Vector(0, 4, 0));
     requireVectorsEqual(hit->normal, Vector(0, -1, 0));
 }
@@ -50,6 +51,7 @@ TEST_CASE("a ray starting inside the sphere hits it in front, not behind", "[sph
     std::optional<HitInfo> hit = sphere.intersect(ray);
 
     REQUIRE(hit.has_value());
+    REQUIRE_THAT(hit->t, WithinAbs(2, tolerance));
     requireVectorsEqual(hit->point, Vector(0, 0, 2));
     requireVectorsEqual(hit->normal, Vector(0, 0, 1));
 }
@@ -64,6 +66,7 @@ TEST_CASE("a ray hits a sphere that is off-centre but close enough", "[sphere]")
     std::optional<HitInfo> hit = sphere.intersect(ray);
 
     REQUIRE(hit.has_value());
+    REQUIRE_THAT(hit->t, WithinAbs(6, tolerance));
     requireVectorsEqual(hit->point, Vector(0, 0, 5));
     requireVectorsEqual(hit->normal, Vector(-0.6, 0, -0.8));
 }
