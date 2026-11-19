@@ -4,12 +4,14 @@ A ray tracer written in C++, built to be readable, tested, documented and open t
 
 ## Status
 
-Discovery phase done. Project bootstrap: Hello World, a test setup, and the files for open source contributions (licence, contributing guide, CI). No ray tracing code yet.
+The ray tracer renders one red sphere and saves it as a PNG file. The camera sends one ray through the centre of every pixel. Lighting, a floor and shadows come next.
 
 ## Documentation
 
 - [Discovery report](docs/discovery/discovery-report.md): problem statement, client interview summary, state of the art, and first notes on ray tracing and C++.
-- [Architecture decisions](docs/adr/): one ADR per decision (dev container, CMake, Catch2, CI).
+- [Domain model](docs/domain/domain-model.md): the classes and the client's words.
+- [Pinhole spike](docs/spikes/pinhole-spike.md): the first ray, from the eye to one pixel.
+- [Architecture decisions](docs/adr/): one ADR per decision (dev container, CMake, Catch2, CI, folders, colour, PNG output, coordinates).
 - [Contributing](CONTRIBUTING.md): set-up, commands, TDD, ADRs and how to submit a change.
 - [Code of conduct](CODE_OF_CONDUCT.md).
 
@@ -31,7 +33,9 @@ make run    # build and run
 make clean  # delete the build directory
 ```
 
-Expected output: `Hello, ray tracer!`
+Expected output: `image.png`. The program writes `image.png` at the root of the project: a red disc on black, 400 × 300. The file is ignored by git.
+
+The first build downloads Catch2 and [LodePNG](https://github.com/lvandeve/lodepng), so it needs internet access.
 
 ## Tests and TDD
 
@@ -60,17 +64,19 @@ Useful Catch2 macros:
 
 ## Adding files
 
-1. Create `src/yourfile.cpp` and `src/yourfile.hpp`, and add the `.cpp` to `add_library(raytracer_core ...)` in [CMakeLists.txt](CMakeLists.txt).
-2. Create `tests/yourfile_test.cpp`, and add it to `add_executable(raytracer_tests ...)` in the same file.
+Each concept has its own folder (see [ADR 0005](docs/adr/0005-folder-per-concept.md)). Includes start from `src/`, for example `#include "math/vector.hpp"`.
+
+1. Create `src/concept/yourfile.cpp` and `src/concept/yourfile.hpp`, and add the `.cpp` to `add_library(raytracer_core ...)` in [CMakeLists.txt](CMakeLists.txt).
+2. Create `tests/concept/yourfile_test.cpp`, and add it to `add_executable(raytracer_tests ...)` in the same file.
 
 ## Project layout
 
 ```
 .devcontainer/   Docker environment
 .github/         CI workflow, pull request and issue templates
-docs/            Discovery report and ADRs
-src/             Library code and the main program
-tests/           Tests
+docs/            Discovery report, domain model, spike notes and ADRs
+src/             Library code, one folder per concept, and main.cpp
+tests/           Tests, in the same folders as src/
 CMakeLists.txt   Build definition
 Makefile         Shortcuts: build, run, test, clean
 ```
