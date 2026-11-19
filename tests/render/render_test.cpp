@@ -1,5 +1,8 @@
 #include <catch2/catch_test_macros.hpp>
 
+#include <string>
+#include <vector>
+
 #include "image/image.hpp"
 #include "render/camera.hpp"
 #include "test_helpers.hpp"
@@ -72,4 +75,31 @@ TEST_CASE("render: a sphere above colours only the top row", "[render]") {
     requireColoursEqual(image.pixel(0, 0), orange);
     requireColoursEqual(image.pixel(0, 1), black);
     requireColoursEqual(image.pixel(0, 2), black);
+}
+
+// The course's grid: screen 5 x 3, image 5 x 3, sphere (0, 0, 6), radius 5.
+// L = O - C = (0, 0, -7), so b = -14 and c = 24 for every pixel, and delta = 196 - 96a with a = D.D.
+// A ray hits when a = x^2 + y^2 + 1 <= 2: the centre and its four neighbours, a plus.
+// Diagonals have a = 3 (delta = -92), so they miss.
+TEST_CASE("render: the course's sphere at (0, 0, 6) draws a plus", "[render]") {
+    Camera camera(Vector(0, 0, -1), 5, 3, 1);
+    Sphere sphere(Vector(0, 0, 6), 5, orange);
+    Image image(5, 3);
+
+    camera.render(image, sphere);
+
+    std::vector<std::string> expected = {
+        "..#..",
+        ".###.",
+        "..#..",
+    };
+    for (unsigned int row = 0; row < 3; row++) {
+        for (unsigned int column = 0; column < 5; column++) {
+            if (expected[row][column] == '#') {
+                requireColoursEqual(image.pixel(column, row), orange);
+            } else {
+                requireColoursEqual(image.pixel(column, row), black);
+            }
+        }
+    }
 }

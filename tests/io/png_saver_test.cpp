@@ -72,3 +72,25 @@ TEST_CASE("saving to a folder that does not exist throws", "[png]") {
 
     REQUIRE_THROWS(saver.save(image, "/no/such/folder/out.png"));
 }
+
+// 0.5 x 255 = 127.5: we round to the nearest, so 128.
+TEST_CASE("a channel at 0.5 is saved as 128", "[png]") {
+    std::string path = tempPath("png_saver_round_test.png");
+    Image image(1, 1);
+    image.setPixel(0, 0, Colour(1, 0.5, 0));
+
+    PngSaver saver;
+    saver.save(image, path);
+
+    std::vector<unsigned char> bytes;
+    unsigned int width = 0;
+    unsigned int height = 0;
+    REQUIRE(lodepng::decode(bytes, width, height, path, LCT_RGB) == 0);
+
+    // Compared as ints, so that a failure prints numbers and not characters.
+    std::vector<int> actual(bytes.begin(), bytes.end());
+    std::vector<int> expected = {255, 128, 0};
+    REQUIRE(actual == expected);
+
+    std::filesystem::remove(path);
+}
