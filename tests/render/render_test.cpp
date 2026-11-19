@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "image/image.hpp"
+#include "light/light.hpp"
 #include "material/flat_material.hpp"
 #include "render/camera.hpp"
 #include "test_helpers.hpp"
@@ -15,6 +16,8 @@
 const Colour orange(1, 0.5, 0);
 const Colour black(0, 0, 0);
 const auto orangeMaterial = std::make_shared<FlatMaterial>(orange);
+// The flat material ignores the light, so any light will do.
+const Light renderLight(Vector(0, 0, -10), Colour(1, 1, 1));
 
 // Sphere (0, 0, 9), radius 1, 10 in front of the eye.
 // Centre ray (0, 0, 1): goes through the sphere centre, hits.
@@ -22,7 +25,7 @@ const auto orangeMaterial = std::make_shared<FlatMaterial>(orange);
 TEST_CASE("render: a small sphere ahead colours only the centre pixel", "[render]") {
     Camera camera(Vector(0, 0, -1), Vector(0, 0, 0), 3);
     Sphere sphere(Vector(0, 0, 9), 1, orangeMaterial);
-    Image image = camera.render(sphere, 3, 3);
+    Image image = camera.render(sphere, renderLight, 3, 3);
 
     for (unsigned int y = 0; y < image.height(); y++) {
         for (unsigned int x = 0; x < image.width(); x++) {
@@ -39,7 +42,7 @@ TEST_CASE("render: a small sphere ahead colours only the centre pixel", "[render
 TEST_CASE("render: a big sphere ahead colours every pixel", "[render]") {
     Camera camera(Vector(0, 0, -1), Vector(0, 0, 0), 3);
     Sphere sphere(Vector(0, 0, 9), 9, orangeMaterial);
-    Image image = camera.render(sphere, 3, 3);
+    Image image = camera.render(sphere, renderLight, 3, 3);
 
     for (unsigned int y = 0; y < image.height(); y++) {
         for (unsigned int x = 0; x < image.width(); x++) {
@@ -53,7 +56,7 @@ TEST_CASE("render: a big sphere ahead colours every pixel", "[render]") {
 TEST_CASE("render: a sphere on the right colours only the right column", "[render]") {
     Camera camera(Vector(0, 0, -1), Vector(0, 0, 0), 3);
     Sphere sphere(Vector(10, 0, 9), 1, orangeMaterial);
-    Image image = camera.render(sphere, 3, 1);
+    Image image = camera.render(sphere, renderLight, 3, 1);
 
     requireColoursEqual(image.pixel(0, 0), black);
     requireColoursEqual(image.pixel(1, 0), black);
@@ -65,7 +68,7 @@ TEST_CASE("render: a sphere on the right colours only the right column", "[rende
 TEST_CASE("render: a sphere above colours only the top row", "[render]") {
     Camera camera(Vector(0, 0, -1), Vector(0, 0, 0), 1);
     Sphere sphere(Vector(0, 10, 9), 1, orangeMaterial);
-    Image image = camera.render(sphere, 1, 3);
+    Image image = camera.render(sphere, renderLight, 1, 3);
 
     requireColoursEqual(image.pixel(0, 0), orange);
     requireColoursEqual(image.pixel(0, 1), black);
@@ -79,7 +82,7 @@ TEST_CASE("render: a sphere above colours only the top row", "[render]") {
 TEST_CASE("render: the course's sphere at (0, 0, 6) draws a plus", "[render]") {
     Camera camera(Vector(0, 0, -1), Vector(0, 0, 0), 5);
     Sphere sphere(Vector(0, 0, 6), 5, orangeMaterial);
-    Image image = camera.render(sphere, 5, 3);
+    Image image = camera.render(sphere, renderLight, 5, 3);
 
     std::vector<std::string> expected = {
         "..#..",
@@ -101,7 +104,7 @@ TEST_CASE("render: the image has the size asked for", "[render]") {
     Camera camera(Vector(0, 0, -1), Vector(0, 0, 0), 5);
     Sphere sphere(Vector(0, 0, 6), 5, orangeMaterial);
 
-    Image image = camera.render(sphere, 5, 3);
+    Image image = camera.render(sphere, renderLight, 5, 3);
 
     REQUIRE(image.width() == 5);
     REQUIRE(image.height() == 3);

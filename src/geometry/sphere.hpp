@@ -1,10 +1,12 @@
 #pragma once
 
 #include <memory>
+#include <optional>
 
-#include "math/vector.hpp"
+#include "geometry/hit_info.hpp"
 #include "geometry/ray.hpp"
 #include "material/material.hpp"
+#include "math/vector.hpp"
 
 class Sphere {
 private:
@@ -19,8 +21,6 @@ public:
     Vector centre() const;
     double radius() const;
     const Material& material() const;
-    // Does the ray hit the sphere in front of its origin?
-    bool hits(const Ray& ray) const;
-    // The nearest point in front of the ray's origin. Call only when hits(ray) is true.
-    Vector hitPoint(const Ray& ray) const;
+ 
+    std::optional<HitInfo> intersect(const Ray& ray) const;
 };

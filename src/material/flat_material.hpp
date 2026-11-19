@@ -3,6 +3,7 @@
 #include "colour/colour.hpp"
 #include "material/material.hpp"
 
+// One colour everywhere. It ignores the hit and the light.
 class FlatMaterial : public Material {
 private:
     Colour _colour;
@@ -10,5 +11,5 @@ private:
 public:
     FlatMaterial(const Colour& colour);
 
-    Colour shade() const override;
+    Colour shade(const HitInfo& hit, const Light& light) const override;
 };

@@ -1,8 +1,13 @@
 #include "render/trace.hpp"
 
-Colour trace(const Ray& ray, const Sphere& sphere) {
-    if (sphere.hits(ray)) {
-        return sphere.material().shade();
+#include <optional>
+
+#include "geometry/hit_info.hpp"
+
+Colour trace(const Ray& ray, const Sphere& sphere, const Light& light) {
+    std::optional<HitInfo> hit = sphere.intersect(ray);
+    if (!hit) {
+        return Colour(0, 0, 0); // no hit, nothing to shade
     }
-    return Colour(0, 0, 0);
+    return hit->material.shade(*hit, light);
 }
