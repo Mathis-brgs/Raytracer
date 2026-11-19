@@ -5,10 +5,11 @@
 
 #include "geometry/hit_info.hpp"
 #include "geometry/ray.hpp"
+#include "geometry/shape.hpp"
 #include "material/material.hpp"
 #include "math/vector.hpp"
 
-class Sphere {
+class Sphere : public Shape {
 private:
     Vector _centre;
     double _radius;
@@ -21,6 +22,5 @@ public:
     Vector centre() const;
     double radius() const;
     const Material& material() const;
- 
-    std::optional<HitInfo> intersect(const Ray& ray) const;
+    std::optional<HitInfo> intersect(const Ray& ray) const override;
 };

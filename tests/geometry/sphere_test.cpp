@@ -4,6 +4,7 @@
 #include <optional>
 
 #include "geometry/hit_info.hpp"
+#include "geometry/shape.hpp"
 #include "geometry/sphere.hpp"
 #include "material/flat_material.hpp"
 #include "test_helpers.hpp"
@@ -97,4 +98,14 @@ TEST_CASE("a sphere keeps its centre, its radius and its material", "[sphere]") 
     requireVectorsEqual(sphere.centre(), Vector(1, 2, 3));
     REQUIRE_THAT(sphere.radius(), WithinAbs(5, tolerance));
     REQUIRE(&sphere.material() == orange.get());
+}
+
+// Through a Shape reference, the call goes to Sphere::intersect (a virtual function).
+// Same ray and sphere as the first test: it hits.
+TEST_CASE("a sphere can be used as a shape", "[sphere]") {
+    Sphere sphere(Vector(0, 0, 0), 1, red);
+    const Shape& shape = sphere;
+    Ray ray(Vector(0, 0, -5), Vector(0, 0, 1));
+
+    REQUIRE(shape.intersect(ray).has_value());
 }
