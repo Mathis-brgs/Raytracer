@@ -21,7 +21,8 @@ target_include_directories(lodepng PUBLIC ${lodepng_SOURCE_DIR})
 # Library: the code we test.
 add_library(raytracer_core src/math/vector.cpp src/geometry/ray.cpp src/render/camera.cpp src/render/trace.cpp src/image/image.cpp src/io/png_saver.cpp src/colour/colour.cpp src/geometry/sphere.cpp)
 target_include_directories(raytracer_core PUBLIC src)
-target_link_libraries(raytracer_core PUBLIC lodepng)
+# PRIVATE: our code uses LodePNG but does not pass it on, so main.cpp cannot include lodepng.h.
+target_link_libraries(raytracer_core PRIVATE lodepng)
 
 # Program: the Hello World demo.
 add_executable(raytracer src/main.cpp)
@@ -37,7 +38,8 @@ FetchContent_MakeAvailable(Catch2)
 list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
 
 add_executable(raytracer_tests tests/float_test.cpp tests/math/vector_test.cpp tests/geometry/ray_test.cpp tests/render/camera_test.cpp tests/render/trace_test.cpp tests/render/render_test.cpp tests/image/image_test.cpp tests/colour/colour_test.cpp tests/geometry/sphere_test.cpp tests/io/png_saver_test.cpp)
-target_link_libraries(raytracer_tests PRIVATE raytracer_core Catch2::Catch2WithMain)
+# The PNG test reads the file back with LodePNG, so it links it too.
+target_link_libraries(raytracer_tests PRIVATE raytracer_core lodepng Catch2::Catch2WithMain)
 target_include_directories(raytracer_tests PRIVATE tests)
 
 include(Catch)
