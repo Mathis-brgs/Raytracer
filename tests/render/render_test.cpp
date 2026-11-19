@@ -7,6 +7,7 @@
 #include "image/image.hpp"
 #include "light/light.hpp"
 #include "material/flat_material.hpp"
+#include "material/lambert_material.hpp"
 #include "render/camera.hpp"
 #include "test_helpers.hpp"
 
@@ -93,6 +94,38 @@ TEST_CASE("render: the course's sphere at (0, 0, 6) draws a plus", "[render]") {
         for (unsigned int column = 0; column < 5; column++) {
             if (expected[row][column] == '#') {
                 requireColoursEqual(image.pixel(column, row), orange);
+            } else {
+                requireColoursEqual(image.pixel(column, row), black);
+            }
+        }
+    }
+}
+
+// Same grid and sphere, now Lambert, with a white light at (0, 0, -2).
+// Centre ray, D = (0, 0, 1): a = 1, delta = 100, t = 2, P = (0, 0, 1), N = (0, 0, -1).
+//   P to light: (0, 0, -3), so L = (0, 0, -1). N . L = 1: full orange.
+// Right ray, D = (1, 0, 1): a = 2, delta = 4, t = 3, P = (3, 0, 2), N = (3, 0, -4) / 5 = (0.6, 0, -0.8).
+//   P to light: (-3, 0, -4), length 5, so L = (-0.6, 0, -0.8). N . L = -0.36 + 0.64 = 0.28.
+// The other three neighbours are the same by symmetry: 0.28 x orange = (0.28, 0.14, 0).
+TEST_CASE("render: the lit plus is brightest in the middle", "[render]") {
+    Camera camera(Vector(0, 0, -1), Vector(0, 0, 0), 5);
+    auto lambertOrange = std::make_shared<LambertMaterial>(orange);
+    Sphere sphere(Vector(0, 0, 6), 5, lambertOrange);
+    Light light(Vector(0, 0, -2), Colour(1, 1, 1));
+    Image image = camera.render(sphere, light, 5, 3);
+
+    const Colour dimOrange(0.28, 0.14, 0);
+    std::vector<std::string> expected = {
+        "..#..",
+        ".#O#.",
+        "..#..",
+    };
+    for (unsigned int row = 0; row < 3; row++) {
+        for (unsigned int column = 0; column < 5; column++) {
+            if (expected[row][column] == 'O') {
+                requireColoursEqual(image.pixel(column, row), orange);
+            } else if (expected[row][column] == '#') {
+                requireColoursEqual(image.pixel(column, row), dimOrange);
             } else {
                 requireColoursEqual(image.pixel(column, row), black);
             }
